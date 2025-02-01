@@ -2,6 +2,7 @@ package commands
 
 import (
 	"irc/pkg/models"
+	"irc/pkg/protocol"
 	"irc/pkg/protocol/replies"
 )
 
@@ -25,6 +26,12 @@ func (j NickCommand) Handle(client *models.Client, args []string) {
 		return
 	}
 	client.User.Nick = args[0]
+	if client.Status == protocol.NOT_REGISTERED {
+		client.Status = protocol.NICK_OK
+	} else if client.Status == protocol.USER_OK {
+		client.Respond(replies.RPL_LUSERCLIENT(0, 0, 0))
+		client.Respond(replies.ERR_NOMOTD)
+	}
 }
 
 type UserCommand struct {
@@ -37,6 +44,12 @@ func (j UserCommand) Handle(client *models.Client, args []string) {
 	}
 	client.User.Name = args[0]
 	client.User.Realname = args[3]
+	if client.Status == protocol.NOT_REGISTERED {
+		client.Status = protocol.USER_OK
+	} else if client.Status == protocol.NICK_OK {
+		client.Respond(replies.RPL_LUSERCLIENT(0, 0, 0))
+		client.Respond(replies.ERR_NOMOTD)
+	}
 }
 
 type ServerCommand struct {

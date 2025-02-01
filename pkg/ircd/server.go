@@ -12,7 +12,7 @@ import (
 type Server struct {
 	Address    string
 	Logger     *log.Logger
-	Handler    map[string]handler.Command
+	Handler    map[string]handler.CommandHandler
 	ChannelMap map[string]*models.Channel
 }
 

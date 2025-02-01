@@ -15,6 +15,7 @@ var (
 	ERR_TOOMANYTARGETS = func(target string) []byte {
 		return []byte(fmt.Sprintf("407 %s :Duplicate recipients. No message delivered", target))
 	}
+	ERR_NOMOTD           = []byte("422 :MOTD File is missing")
 	ERR_NONICKNAMEGIVEN  = []byte("431 :No nickname given")
 	ERR_ERRONEUSNICKNAME = func(nick string) []byte { return []byte(fmt.Sprintf("432 %s :Erroneus nickname", nick)) }
 	ERR_NICKNAMEINUSE    = func(nick string) []byte { return []byte(fmt.Sprintf("433 %s :Nickname is already in use", nick)) }

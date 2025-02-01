@@ -38,3 +38,11 @@ func (ch *Channel) Remove(client *Client) error {
 	ch.syncRW.Unlock()
 	return nil
 }
+
+func (ch *Channel) GetClients() []*Client {
+	ch.syncRW.RLock()
+	clients := make([]*Client, len(ch.Clients))
+	copy(clients, ch.Clients)
+	ch.syncRW.RUnlock()
+	return clients
+}

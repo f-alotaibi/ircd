@@ -2,6 +2,6 @@ package handler
 
 import "irc/pkg/models"
 
-type Command interface {
+type CommandHandler interface {
 	Handle(*models.Client, []string)
 }

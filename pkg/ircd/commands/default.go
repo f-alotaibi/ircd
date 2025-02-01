@@ -5,8 +5,8 @@ import (
 	"irc/pkg/ircd/handler"
 )
 
-var DefaultCommands = func(ch channelhost.ChannelHost) map[string]handler.Command {
-	return map[string]handler.Command{
+var DefaultCommands = func(ch channelhost.ChannelHost) map[string]handler.CommandHandler {
+	return map[string]handler.CommandHandler{
 		"PASS":   PassCommand{},
 		"NICK":   NickCommand{},
 		"USER":   UserCommand{},
@@ -14,5 +14,6 @@ var DefaultCommands = func(ch channelhost.ChannelHost) map[string]handler.Comman
 		"OPER":   OperCommand{},
 		"SQUIT":  ServerQuitCommand{},
 		"JOIN":   JoinCommand{ChannelHost: ch},
+		"PART":   PartCommand{ChannelHost: ch},
 	}
 }

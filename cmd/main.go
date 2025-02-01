@@ -8,8 +8,8 @@ import (
 func main() {
 	ircd := ircd.New("0.0.0.0:6667")
 	ircd.ChannelMap = map[string]*models.Channel{
-		"test": {
-			Name: "test",
+		"#test": {
+			Name: "#test",
 		},
 	}
 	err := ircd.Listen()

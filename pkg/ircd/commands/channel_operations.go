@@ -21,17 +21,21 @@ func (j JoinCommand) Handle(client *models.Client, args []string) {
 		// TODO: KEY
 		channel, ok := j.ChannelHost.Channels()[channelName]
 		if !ok {
+			client.Respond(replies.ERR_NOSUCHCHANNEL(channelName))
 			continue
 		}
 		err := channel.Add(client)
 		if err != nil {
 			continue
 		}
-		if channel.Topic == "" {
-			client.Respond(replies.RPL_NOTOPIC(channel.Name))
-		} else {
-			client.Respond(replies.RPL_TOPIC(channel.Name, channel.Topic))
+		//client.Respond([]byte(fmt.Sprintf("JOIN %s", channel.Name)))
+		clients := channel.GetClients()
+		nickedUsers := make([]string, 0)
+		for _, client := range clients {
+			nickedUsers = append(nickedUsers, client.User.Nick)
 		}
+		client.Respond(replies.RPL_TOPIC(channel.Name, channel.Topic))
+		client.Respond(replies.RPL_NAMREPLY(channel.Name, nickedUsers))
 	}
 }
 
